@@ -4,6 +4,9 @@ import requests
 import random
 from dotenv import load_dotenv
 
+app = flask.Flask(__name__)
+app.secret_key = "secret_key"
+
 def randomMovieGen():
     movieList =["Tron", "Fast and Furious", "IronMan"]
     movieList_key = [20526, 13804, 1726]
@@ -35,14 +38,18 @@ def pullMovieData():
 
 def getPoster(chosenMovie):
     movie_data = chosenMovie
-    return (movie_data["poster_path"])
+    posterPath =  (movie_data["poster_path"])
+    imageUrl = "https://image.tmdb.org/t/p/w500"
+    return (imageUrl + posterPath)
+
 
 def getGenre(chosenMovie):
     movie_data = chosenMovie
     # print("\nthe Genres are: ")
-    
+    str1 = " "
     for i in movie_data["genres"]:
-        return (i["name"] + " ")
+        str1 += (str(i["name"] + ", "))
+    return str1
 
 
 def getTitle(chosenMovie):
@@ -54,14 +61,23 @@ def getTagline(chosenMovie):
     return((movie_data["tagline"]))
 
 
-
+@app.route('/')
 def main():
     chosenMovie = pullMovieData() # so it only generates the poster once
-    print ("\nThe title of the movie is: " + getTitle(chosenMovie))
-    print ("\nThe Genre is: " + getGenre(chosenMovie))
-    print("\nThe Tagline is: " + getTagline(chosenMovie))
-    print("\nHere is the poster: " + getPoster(chosenMovie))
+    # print ("\nThe title of the movie is: " + getTitle(chosenMovie))
+    # print ("\nThe Genre is: " + getGenre(chosenMovie))
+    # print("\nThe Tagline is: " + getTagline(chosenMovie))
+    # print("\nHere is the poster: " + getPoster(chosenMovie))
+
+    return flask.render_template(
+        'index.html',
+        title=getTitle(chosenMovie),
+        tagline=getTagline(chosenMovie),
+        genres = getGenre(chosenMovie),
+        poster = getPoster(chosenMovie)
+        )
 
 #getGenre(pullMovieData())
 
-main()
+#main()
+app.run(debug=True)
