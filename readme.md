@@ -1,4 +1,6 @@
-
+    was able to post and develop to: 
+   https://delicate-violet-7674.fly.dev/
+   
     you can get the code for this through Signm4's GitHub!
         - git clone git@github.com:signm4/project1-muhammed-motiwala.git
         You will need your own API Key, to do so go to TMDB's Developer website and follow instructions to sign up as developer
@@ -10,7 +12,7 @@
         
         to start this app in your own computer, make sure app.run() is coded in the main python file
 
-        then run the python file in terminal, the app should open in 127.0.0.1:8000
+        then run the python file in terminal, the app should open in 127.0.0.1:5000
 
 What are at least 2 technical issues you encountered with your project? How did you fix them?
 
@@ -29,3 +31,5 @@ Need to fix how the Background image is not actually in the background
 
 Error You hit a Fly API error with request ID: 01GFNCSGEV679VK61HQJN0KWFR-dfw
 fly.io not deploying
+
+fixed fly.io

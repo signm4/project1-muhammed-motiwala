@@ -1,12 +1,17 @@
+'''importing flask server to help deploy'''
 import flask
+'''importing os to get env key from other file'''
 import os
+'''importing requests to use for API'''
 import requests
+
 import random
 from dotenv import load_dotenv
 
 app = flask.Flask(__name__)
 app.secret_key = "secret_key"
 
+'''Selects a random movie from list'''
 def randomMovieGen():
     movieList =["Tron", "Fast and Furious", "IronMan", "Spider Man: No Way Home", "Free Guy", "Shang-Chi", "The Godfather"]
     movieList_key = [20526, 13804, 1726, 634649, 550988, 566525, 238]
@@ -18,6 +23,8 @@ def randomMovieGen():
     index = movieList.index(randomSelect)
     return (movieList_key[index])
 
+
+'''Pulls the movie data from the database and returns it'''
 def pullMovieData():
     #USING API
     #using dot env file and pulling key from .env file
@@ -36,13 +43,14 @@ def pullMovieData():
     json_data = response.json()
     return json_data
 
+'''takes in the given movie data and is able to figure the link of the poster image and returns the whole url'''
 def getPoster(chosenMovie):
     movie_data = chosenMovie
     posterPath =  (movie_data["poster_path"])
     imageUrl = "https://image.tmdb.org/t/p/w500"
     return (imageUrl + posterPath)
 
-
+'''Takes in given movie data and is able to return the genre(s)'''
 def getGenre(chosenMovie):
     movie_data = chosenMovie
     # print("\nthe Genres are: ")
@@ -51,15 +59,17 @@ def getGenre(chosenMovie):
         str1 += (str(i["name"] + ", "))
     return str1
 
-
+'''Takes in movie data and returns the original title'''
 def getTitle(chosenMovie):
     movie_data = chosenMovie
     return((movie_data["original_title"]))
 
+'''takes in movie data and returns the tagline'''
 def getTagline(chosenMovie):
     movie_data = chosenMovie
     return((movie_data["tagline"]))
 
+'''takes in the title from getTitle(), searches on Wiki Api for link and returns it'''
 def pullWikiData(search1):
     WIKI_API_REQUEST = 'https://en.wikipedia.org/w/api.php?'
     response =  requests.get(
@@ -98,4 +108,4 @@ def main():
 #getGenre(pullMovieData())
 
 #main()
-app.run(debug=True)
+# app.run(debug=True)

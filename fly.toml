@@ -1,6 +1,6 @@
-# fly.toml file generated for dry-silence-4527 on 2022-10-18T06:11:59-05:00
+# fly.toml file generated for delicate-violet-7674 on 2022-10-18T16:01:02-05:00
 
-app = "dry-silence-4527"
+app = "delicate-violet-7674"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
@@ -10,7 +10,6 @@ processes = []
 
 [env]
   PORT = "8080"
-
 
 [experimental]
   allowed_public_ports = []
