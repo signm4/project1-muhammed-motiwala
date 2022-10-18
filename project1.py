@@ -8,8 +8,8 @@ app = flask.Flask(__name__)
 app.secret_key = "secret_key"
 
 def randomMovieGen():
-    movieList =["Tron", "Fast and Furious", "IronMan"]
-    movieList_key = [20526, 13804, 1726]
+    movieList =["Tron", "Fast and Furious", "IronMan", "Spider Man: No Way Home", "Free Guy", "Shang-Chi", "The Godfather"]
+    movieList_key = [20526, 13804, 1726, 634649, 550988, 566525, 238]
 
     # print("here is a favorite movie: ")
 
