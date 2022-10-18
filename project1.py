@@ -60,6 +60,22 @@ def getTagline(chosenMovie):
     movie_data = chosenMovie
     return((movie_data["tagline"]))
 
+def pullWikiData(search1):
+    WIKI_API_REQUEST = 'https://en.wikipedia.org/w/api.php?'
+    response =  requests.get(
+        f"{WIKI_API_REQUEST}",
+        params={'action':'opensearch',
+                 'namespace' : '0',
+                 'search' : search1,
+                 'limit' : '1',
+                 'format' : 'json'}
+        )
+
+    json_data = response.json()
+
+    wiki_data = json_data
+    wiki_data_url = str(wiki_data[3][0])
+    return ((wiki_data_url))
 
 @app.route('/')
 def main():
@@ -68,13 +84,15 @@ def main():
     # print ("\nThe Genre is: " + getGenre(chosenMovie))
     # print("\nThe Tagline is: " + getTagline(chosenMovie))
     # print("\nHere is the poster: " + getPoster(chosenMovie))
+    title1=getTitle(chosenMovie)
 
     return flask.render_template(
         'index.html',
-        title=getTitle(chosenMovie),
-        tagline=getTagline(chosenMovie),
-        genres = getGenre(chosenMovie),
-        poster = getPoster(chosenMovie)
+    title=getTitle(chosenMovie),
+    tagline=getTagline(chosenMovie),
+    genres = getGenre(chosenMovie),
+    poster = getPoster(chosenMovie),
+    links = pullWikiData(title1)
         )
 
 #getGenre(pullMovieData())

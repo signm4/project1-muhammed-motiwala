@@ -1,6 +1,7 @@
 # Byte-compiled / optimized / DLL files
 .env
 old.py
+wikitest.py
 __pycache__/
 *.py[cod]
 *$py.class
