@@ -1,6 +1,6 @@
-# fly.toml file generated for delicate-violet-7674 on 2022-10-18T16:01:02-05:00
+# fly.toml file generated for bold-silence-415 on 2022-11-08T13:09:34-06:00
 
-app = "delicate-violet-7674"
+app = "bold-silence-415"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []

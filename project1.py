@@ -4,12 +4,18 @@ import flask
 import os
 '''importing requests to use for API'''
 import requests
+'''import flask sql'''
+from flask_sqlalchemy import SQLAlchemy
 
 import random
 from dotenv import load_dotenv
+load_dotenv()
 
 app = flask.Flask(__name__)
 app.secret_key = "secret_key"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
+db = SQLAlchemy(app)
+
 
 '''Selects a random movie from list'''
 def randomMovieGen():
@@ -104,6 +110,23 @@ def main():
     poster = getPoster(chosenMovie),
     links = pullWikiData(title1)
         )
+
+@app.route('/login')
+def login():
+    return flask.render_template('login.html')
+
+@app.route('/handle_login', methods = ['POST'])
+def handle_login():
+    form_data = request.form
+    global username; username = form_data['username']
+    user = User.query.filter_by(username = username).first()
+    login_user (user)
+    return redirect(url_for('welcome'))
+
+
+@app.route('/signup')
+def signup():
+    return flask.render_template('signup.html')
 
 #getGenre(pullMovieData())
 
