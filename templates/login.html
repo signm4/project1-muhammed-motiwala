@@ -4,24 +4,41 @@
     <title>Suleman's Fave Movies | Login</title>
     <body>
     <h1>Login Here!</h1>
-    <form action="action_page.php" method="post">
+    <form action="{{ url_for('handle_login') }}" method="post">
         <div class="imgcontainer">
           <img src="img_avatar2.png" alt="Avatar" class="avatar">
         </div>
       
         <div class="container">
-          <label for="email"><b>Email</b></label>
-          <input type="text" placeholder="Enter Username" name="email" required>
+          <label for="username"><b>Username</b></label>
+          <input type="text" placeholder="Enter Username" name="username" required>
       
           <button type="submit">Login</button>
 
         </div>
       
-        <div class="container" style="background-color:#f1f1f1">
-          <button type="button" class="cancelbtn">Cancel</button>
-          <span class="psw">Forgot <a href="#">password?</a></span>
-        </div>
+
+          <!-- <span class="psw">Forgot <a href="#">password?</a></span> -->
+          
+          <!-- Flash Message for logged in -->
+          <!-- {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              <ul class=flashes>
+              {% for message in messages %}
+                <li>{{ message }}</li>
+              {% endfor %}
+              </ul>
+            {% endif %}
+          {% endwith %}
+          {% block body %}{% endblock %} -->
+
       </form>
+      <div class="container" style="background-color:#f1f1f1">
+        <!-- <button type="button" onclick="history.back()" class="cancelbtn">Sign Up</button> -->
+        <a href="signup.html">
+          <button class ="cancelbtn">Sign Up</button>
+        </a> 
+      </div>
     <!-- <button onClick="window.location.reload();">Click here to change Movies </button> -->
     </body>
 </html>

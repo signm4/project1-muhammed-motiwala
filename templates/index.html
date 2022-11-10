@@ -4,19 +4,33 @@
     <title>Suleman's Fave Movies</title>
     <body>
         <div class="topnav">
-            <a href="login.html">Login</a>
+            <a href="/">Login</a>
             <a href="signup.html">Sign Up</a>
           </div>
     <h1>My Favorite Movies</h1>
     <h2>Here you will find movies that I enjoyed</h2>
     <button onClick="window.location.reload();">Click here to change Movies </button>
     <h3>Title: <strong><u>{{title}}</u></strong></h3>
+    <!-- <h3>Movie ID: {{movie_id}}</h3> -->
     <h3><i>"{{tagline}}"</i></h3>
     <h3>Genre(s): {{genres}}</h3>
     <!-- <h3>{{poster}}</h3> -->
     <!-- <h3>{{links}}</h3> -->
     <h3>Here is the <a div class ="hover" href = {{links}}> WikiPedia </a> link</h3>
     <img src={{poster}}>
+
+    <!-- Send in movie_id in here too!!! -->
+    <form action="{{ url_for('comment') }}" method="post">      
+          <label for="movie_review"><b>Review</b></label>
+          <input type="text" placeholder="Comment" name="movie_review">
+          <label for="movie_rating"><b>Rating</b></label>
+          <input type="text" placeholder="Rating" name="movie_rating" required>
+          <label for="movie_id"><b>Movie ID</b></label>
+          <input type="text" value ={{movie_id}} name="movie_id" required>
+      
+          <button type="submit">Submit</button>
+
+        </div>
     <!-- <button id ="button" name="button" href = "index.html">Click here to change Movies</button> -->
     <div class="cover-image" style="background-image:url({{poster}}) ;"></div>
     </body>

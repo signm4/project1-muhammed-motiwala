@@ -1,11 +1,13 @@
 '''importing flask server to help deploy'''
 import flask
+from flask import Flask, flash, redirect, request, url_for, render_template 
+from flask_login import LoginManager, UserMixin, login_user, current_user, login_required
 '''importing os to get env key from other file'''
 import os
 '''importing requests to use for API'''
 import requests
 '''import flask sql'''
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy, session
 
 import random
 from dotenv import load_dotenv
@@ -15,6 +17,19 @@ app = flask.Flask(__name__)
 app.secret_key = "secret_key"
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
 db = SQLAlchemy(app)
+
+
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
+login_manager.init_app(app)
+
+
+
+
+@login_manager.user_loader
+def load_user(id):
+    # since the user_id is just the primary key of our user table, use it in the query for the user
+    return Person.query.get(int(id))
 
 
 '''Selects a random movie from list'''
@@ -70,6 +85,10 @@ def getTitle(chosenMovie):
     movie_data = chosenMovie
     return((movie_data["original_title"]))
 
+def getID(chosenMovie):
+    movie_data = chosenMovie
+    return((movie_data["id"]))
+
 '''takes in movie data and returns the tagline'''
 def getTagline(chosenMovie):
     movie_data = chosenMovie
@@ -93,7 +112,33 @@ def pullWikiData(search1):
     wiki_data_url = str(wiki_data[3][0])
     return ((wiki_data_url))
 
-@app.route('/')
+class Person(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique = True, nullable = False)
+
+    def __repr__(self):
+        return '<Review %r>' % self.username
+
+    def __repr__(self) -> str:
+        return f"Person with username: {self.username}"
+
+class Review(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), nullable = True)
+    movie_id = db.Column(db.Integer, nullable = True)
+    movie_review= db.Column(db.String(800), unique = True, nullable = True)
+    movie_rating = db.Column(db.Integer, nullable = True)
+
+
+with app.app_context():
+    db.create_all()
+
+   
+@app.route('/signup.html')
+def signup():
+    return flask.render_template('signup.html')
+
+@app.route('/index.html')
 def main():
     chosenMovie = pullMovieData() # so it only generates the poster once
     # print ("\nThe title of the movie is: " + getTitle(chosenMovie))
@@ -101,9 +146,10 @@ def main():
     # print("\nThe Tagline is: " + getTagline(chosenMovie))
     # print("\nHere is the poster: " + getPoster(chosenMovie))
     title1=getTitle(chosenMovie)
-
+    # movie_id = chosenMovie
     return flask.render_template(
         'index.html',
+    movie_id = getID(chosenMovie),
     title=getTitle(chosenMovie),
     tagline=getTagline(chosenMovie),
     genres = getGenre(chosenMovie),
@@ -111,24 +157,71 @@ def main():
     links = pullWikiData(title1)
         )
 
-@app.route('/login')
+@app.route('/')
 def login():
     return flask.render_template('login.html')
 
 @app.route('/handle_login', methods = ['POST'])
 def handle_login():
+    username = request.form.get('username')
+    if username == " ":
+        flash("Invalid, Please try again")
+        return redirect(url_for('login'))
+    person = Person.query.filter_by(username = username).first()
+    global curr_user
+    curr_user = username
+    # Person.query.filter_by(username)
+    if person:
+        login_user(person)
+        print("User Accepted")
+        return redirect(url_for('main'))
+    else:
+        flash("Failed Identity, Try again")
+        print("User Declined")
+        return(redirect(url_for('login')))
+        
+    # return flask.redirect(url_for('welcome'))
+
+
+
+@app.route('/handle_signup', methods = ['POST'])
+def handle_signup():
+
+    # 
+    if request.method == "POST":
+        # getting input with name = fname in HTML form
+        username = request.form.get("username")
+        auth_user = Person(username = username)
+        db.session.add(auth_user)
+        db.session.commit()
+        # flash( "Your name is "+ username )
+        return redirect(url_for('login'))
+        # return render_template("index.html")
+    # return flask.redirect(url_for('welcome'))
+
+@app.route('/handle_review', methods = ['POST'])
+def comment():
     form_data = request.form
-    global username; username = form_data['username']
-    user = User.query.filter_by(username = username).first()
-    login_user (user)
-    return redirect(url_for('welcome'))
+    # username = db.Column(db.String(80), nullable = True)
+    movie_review= form_data['movie_review']
+    movie_id = form_data['movie_id']
+    movie_rating= form_data['movie_rating']
+    movie_rating = int (movie_rating)
+    if movie_rating == " ":
+        flash("Try again")
+        return flask.render_template('index.html')
+    elif movie_rating > 5 or movie_rating < 0:
+        flash("Incorrect input, Try Again")
+        return flask.render_template('index.html')
 
-
-@app.route('/signup')
-def signup():
-    return flask.render_template('signup.html')
+    movie_comment = Review(username= curr_user, movie_id = movie_id, movie_review = movie_review, movie_rating = movie_rating)
+    db.session.add(movie_comment)
+    db.session.commit()
+    flash("Review Recieved and Posted")
+    # print(movie_comment)
+    return flask.render_template('index.html')
 
 #getGenre(pullMovieData())
 
 #main()
-# app.run(debug=True)
+app.run(port=4500, debug=True)
