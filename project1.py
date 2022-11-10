@@ -94,6 +94,11 @@ def getTagline(chosenMovie):
     movie_data = chosenMovie
     return((movie_data["tagline"]))
 
+def getReview(chosenMovie):
+    db_data = Review.query.filter_by(movie_id=getID(chosenMovie)).all()
+    print ("getReview function says: ", db_data)
+    return(db_data)
+
 '''takes in the title from getTitle(), searches on Wiki Api for link and returns it'''
 def pullWikiData(search1):
     WIKI_API_REQUEST = 'https://en.wikipedia.org/w/api.php?'
@@ -124,10 +129,10 @@ class Person(UserMixin, db.Model):
 
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), nullable = True)
-    movie_id = db.Column(db.Integer, nullable = True)
-    movie_review= db.Column(db.String(800), unique = True, nullable = True)
-    movie_rating = db.Column(db.Integer, nullable = True)
+    username = db.Column(db.String(80), nullable = False)
+    movie_id = db.Column(db.Integer, nullable = False)
+    movie_review= db.Column(db.String(800), nullable = False)
+    movie_rating = db.Column(db.Integer, nullable = False)
 
 
 with app.app_context():
@@ -147,6 +152,8 @@ def main():
     # print("\nHere is the poster: " + getPoster(chosenMovie))
     title1=getTitle(chosenMovie)
     # movie_id = chosenMovie
+    db_data = getReview(chosenMovie)
+    print(db_data)
     return flask.render_template(
         'index.html',
     movie_id = getID(chosenMovie),
@@ -154,8 +161,12 @@ def main():
     tagline=getTagline(chosenMovie),
     genres = getGenre(chosenMovie),
     poster = getPoster(chosenMovie),
-    links = pullWikiData(title1)
+    links = pullWikiData(title1),
+
+    user = curr_user,
+    db_data = db_data
         )
+    
 
 @app.route('/')
 def login():
@@ -209,9 +220,11 @@ def comment():
     movie_rating = int (movie_rating)
     if movie_rating == " ":
         flash("Try again")
+        print ("movie rating was empty")
         return flask.render_template('index.html')
     elif movie_rating > 5 or movie_rating < 0:
         flash("Incorrect input, Try Again")
+        print( "not a valid rating ")
         return flask.render_template('index.html')
 
     movie_comment = Review(username= curr_user, movie_id = movie_id, movie_review = movie_review, movie_rating = movie_rating)
@@ -219,7 +232,9 @@ def comment():
     db.session.commit()
     flash("Review Recieved and Posted")
     # print(movie_comment)
-    return flask.render_template('index.html')
+    print ("review recieved, database updated")
+    # return flask.render_template('index.html')
+    return redirect(url_for('main'))
 
 #getGenre(pullMovieData())
 

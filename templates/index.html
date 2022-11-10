@@ -7,6 +7,7 @@
             <a href="/">Login</a>
             <a href="signup.html">Sign Up</a>
           </div>
+    <h3> {{user}} is logged in </h3>
     <h1>My Favorite Movies</h1>
     <h2>Here you will find movies that I enjoyed</h2>
     <button onClick="window.location.reload();">Click here to change Movies </button>
@@ -31,6 +32,8 @@
           <button type="submit">Submit</button>
 
         </div>
+
+    <p>Previous Reviews: {{db_data}}</p>
     <!-- <button id ="button" name="button" href = "index.html">Click here to change Movies</button> -->
     <div class="cover-image" style="background-image:url({{poster}}) ;"></div>
     </body>

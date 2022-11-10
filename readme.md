@@ -7,12 +7,13 @@
         MAKE SURE KEY IS NOT SHARED
         this Program expects you to have a API KEY,
         make a file named ".env" and in it have TMDB_API_KEY = "YOUR KEY HERE" 
+        also might need a DATABASE_URL 
 
         To run this on your system, make sure you have imported flask, flask start guide can be found on this github example, https://github.com/fly-apps/python-hellofly-flask#readme 
         
         to start this app in your own computer, make sure app.run() is coded in the main python file
 
-        then run the python file in terminal, the app should open in 127.0.0.1:5000
+        then run the python file in terminal, the app should open in 127.0.0.1:4500
 
 What are at least 2 technical issues you encountered with your project? How did you fix them?
 
@@ -33,3 +34,19 @@ Error You hit a Fly API error with request ID: 01GFNCSGEV679VK61HQJN0KWFR-dfw
 fly.io not deploying
 
 fixed fly.io
+
+
+---------------------------------------- Proj. 2
+
+What are at least 2 technical issues you encountered with your project? How did you fix them? 
+    was having a hard time with fly.io, after talking to teammates i was able to setup by venv and work on local host
+    Fly.io wasn't working, had to reset 3 times, Also had problems with postgres database, went on the server and was able to clear tables 
+
+How did your experience working on this milestone differ from what you pictured while working through the planning process? What was unexpectedly hard? Was anything unexpectedly easy?
+    I was definitely having a hard time working with fly.io, flask was better then I had thought, but fly.io is a nightmare for me.
+
+    Project is still not posting on fly.io but runs locally, fly.io database still correctly works
+
+    Login and Signup pages are perfectly running, havent been able to clean up the way it reacts when Not logged IN, will still stay on same page until signup 
+    
+    Commenting works whwere it can take the comment and post it to the database, (have checked using postgres /d TABLE "review";) but taking out of database I had made a function but te function only return which id the Review was created on . 

@@ -4,11 +4,7 @@
     <title>Suleman's Fave Movies | Login</title>
     <body>
     <h1>Login Here!</h1>
-    <form action="{{ url_for('handle_login') }}" method="post">
-        <div class="imgcontainer">
-          <img src="img_avatar2.png" alt="Avatar" class="avatar">
-        </div>
-      
+    <form action="{{ url_for('handle_login') }}" method="post">      
         <div class="container">
           <label for="username"><b>Username</b></label>
           <input type="text" placeholder="Enter Username" name="username" required>
