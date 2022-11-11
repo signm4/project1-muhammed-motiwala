@@ -96,8 +96,37 @@ def getTagline(chosenMovie):
 
 def getReview(chosenMovie):
     db_data = Review.query.filter_by(movie_id=getID(chosenMovie)).all()
-    print ("getReview function says: ", db_data)
-    return(db_data)
+    # movieRating= " "
+    for i in db_data:
+        # movieRating[i] = (i.movie_rating)
+        return(i.movie_review) 
+    print ("getReview function says:  ", db_data)
+    # print ("getReview function says: ", movieRating)
+    # return(db_data)
+    
+def getRating(chosenMovie):
+    db_data = Review.query.filter_by(movie_id=getID(chosenMovie)).all()
+    # movieRating= " "
+    for i in db_data:
+        print ("getRating function", i.movie_rating)   
+        return(i.movie_rating)
+
+def getReviewUser(chosenMovie):
+    db_data = Review.query.filter_by(movie_id=getID(chosenMovie)).all()
+    # movieRating= " "
+    for i in db_data:
+        # movieRating[i] = (i.movie_rating)
+        print ("getReviewUser function", i.username)   
+        return(i.username)
+
+def getReviewMovieID(chosenMovie):
+    db_data = Review.query.filter_by(movie_id=getID(chosenMovie)).all()
+    # movieRating= " "
+    for i in db_data:
+        # movieRating[i] = (i.movie_rating)
+        print ("getReviewMovieID function", i.movie_id)   
+        return(i.movie_id)
+
 
 '''takes in the title from getTitle(), searches on Wiki Api for link and returns it'''
 def pullWikiData(search1):
@@ -162,6 +191,9 @@ def main():
     genres = getGenre(chosenMovie),
     poster = getPoster(chosenMovie),
     links = pullWikiData(title1),
+    rating = getRating(chosenMovie),
+    userid = getReviewUser(chosenMovie),
+    review = getReview(chosenMovie),
 
     user = curr_user,
     db_data = db_data
