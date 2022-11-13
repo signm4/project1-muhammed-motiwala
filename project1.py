@@ -95,38 +95,48 @@ def getTagline(chosenMovie):
     return((movie_data["tagline"]))
 
 def getReview(chosenMovie):
+    db_array= []
     db_data = Review.query.filter_by(movie_id=getID(chosenMovie)).all()
     # movieRating= " "
     for i in db_data:
         # movieRating[i] = (i.movie_rating)
-        return(i.movie_review) 
-    print ("getReview function says:  ", db_data)
+        db_array.append(i.movie_review)
+    print(db_array)
+    return(db_array)
     # print ("getReview function says: ", movieRating)
     # return(db_data)
     
 def getRating(chosenMovie):
+    db_array= []
     db_data = Review.query.filter_by(movie_id=getID(chosenMovie)).all()
     # movieRating= " "
     for i in db_data:
         print ("getRating function", i.movie_rating)   
-        return(i.movie_rating)
+        db_array.append(i.movie_rating)
+    print(db_array)
+    return(db_array)
 
 def getReviewUser(chosenMovie):
+    db_array= []
     db_data = Review.query.filter_by(movie_id=getID(chosenMovie)).all()
     # movieRating= " "
     for i in db_data:
         # movieRating[i] = (i.movie_rating)
-        print ("getReviewUser function", i.username)   
-        return(i.username)
+        print ("getReviewUser function", i.username)
+        db_array.append(i.username)       
+    print(db_array)
+    return(db_array)
 
 def getReviewMovieID(chosenMovie):
+    db_array= []
     db_data = Review.query.filter_by(movie_id=getID(chosenMovie)).all()
     # movieRating= " "
     for i in db_data:
         # movieRating[i] = (i.movie_rating)
         print ("getReviewMovieID function", i.movie_id)   
-        return(i.movie_id)
-
+        db_array.append(i.movie_id)        
+    print(db_array)
+    return(db_array)
 
 '''takes in the title from getTitle(), searches on Wiki Api for link and returns it'''
 def pullWikiData(search1):
