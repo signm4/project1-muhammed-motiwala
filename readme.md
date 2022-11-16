@@ -45,8 +45,9 @@ What are at least 2 technical issues you encountered with your project? How did 
 How did your experience working on this milestone differ from what you pictured while working through the planning process? What was unexpectedly hard? Was anything unexpectedly easy?
     I was definitely having a hard time working with fly.io, flask was better then I had thought, but fly.io is a nightmare for me.
 
-    Project is still not posting on fly.io but runs locally, fly.io database still correctly works
+    Project is posted on fly.io at address bold-silence-415.fly.dev 
 
     Login and Signup pages are perfectly running, havent been able to clean up the way it reacts when Not logged IN, will still stay on same page until signup 
     
-    Commenting works whwere it can take the comment and post it to the database, (have checked using postgres /d TABLE "review";) but taking out of database I had made a function but te function only return which id the Review was created on . 
+    Commenting works whwere it can take the comment and post it to the database, (have checked using postgres /d TABLE "review";) 
+    commenting now works, and displays all comments, however doesn't do it in a clean way, shows the array and not on different lines. 

@@ -189,7 +189,7 @@ def main():
     # print ("\nThe Genre is: " + getGenre(chosenMovie))
     # print("\nThe Tagline is: " + getTagline(chosenMovie))
     # print("\nHere is the poster: " + getPoster(chosenMovie))
-    title1=getTitle(chosenMovie)
+    # title1=getTitle(chosenMovie)
     # movie_id = chosenMovie
     db_data = getReview(chosenMovie)
     print(db_data)
@@ -200,7 +200,7 @@ def main():
     tagline=getTagline(chosenMovie),
     genres = getGenre(chosenMovie),
     poster = getPoster(chosenMovie),
-    links = pullWikiData(title1),
+    links = pullWikiData(getTitle(chosenMovie)),
     rating = getRating(chosenMovie),
     userid = getReviewUser(chosenMovie),
     review = getReview(chosenMovie),
@@ -281,4 +281,4 @@ def comment():
 #getGenre(pullMovieData())
 
 #main()
-app.run(port=4500, debug=True)
+# app.run(port=4500, debug=True)
